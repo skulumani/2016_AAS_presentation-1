@@ -2,9 +2,8 @@
 %\usepackage{times}
 \documentclass[11pt,professionalfonts]{beamer}
 \usefonttheme{serif}
-\usepackage{presentation_packages}
-\usepackage{multimedia}
-\usepackage{animate} % for animated gif
+
+\usepackage{aas_presentation_packages}
 
 \DeclareSIUnit\year{yr}
 
@@ -63,39 +62,37 @@
   \titlepage
 \end{frame}   %-----------------------------%
 
-\section*{}
-\subsection*{Introduction}  
+\section*{Introduction}
+\subsection*{Motivation}  
 
 \begin{frame}{Asteroid Missions}
 \begin{itemize}
-    \item Asteroid provide great insight into the early formation of the solar system
-    \item Asteroid mining - extraction of useful materials from asteroids
-    \item Large risk of future asteroid impacts - huge threat to humanity
+    \item Science - insight into the early formation of the solar system
+    \item Mining - vast quantities of useful materials
+    \item Impact - huge threat to humanity from impact
 \end{itemize}    
 
 \begin{center}
-    \includegraphics[height=0.3\textheight]{figures/near_mos_20001203_full.jpg}
+    \includegraphics[height=0.35\textheight]{figures/near_mos_20001203_full.jpg}
     \hfill
-    \includegraphics[height=0.3\textheight]{figures/Itokawa8_hayabusa_1210.jpg}
+    \includegraphics[height=0.35\textheight]{figures/Itokawa8_hayabusa_1210.jpg}
 \end{center}
-
-
 \end{frame}
 
 \begin{frame}{Asteroid Mining}
     \begin{itemize}
-      \item  Variety of useful materials can be extracted from asteroids to support:
+      \item Useful materials can be extracted from asteroids to support:
       \begin{itemize}
           \item Propulsion, construction, life support, agriculture, and precious/strategic metals
       \end{itemize}
-      \item Commercialization of near-Earth asteroids is possible
+      \item Commercialization of near-Earth asteroids is feasible~\footfullcite{ross2001}
     \end{itemize}
 
 \begin{center}
 \small
     \begin{tabular}{|l|r|r|}
         \hline 
-        Element & Price (\SI{}[US]{\$\per\kilo\gram}) & Sales (\SI{}{\$M\per\year}) \\
+        Element & Price (\SI{}{\$\per\kilo\gram}) & Sales (\SI{}{\$M\per\year}) \\
         \hline \hline 
         Phosphorous (P) & \num{0.08}  & \num{2167} \\
         Gallium (Ga) & \num{300.00}  & \num{1544} \\
@@ -117,11 +114,6 @@
     \item Low-thrust orbital transfers
     \begin{itemize}
         \item Electric propulsion has increased in popularity
-
-        \includegraphics[height=0.3\textheight]{patriot_plume}
-        \hfill
-        \includegraphics[height=0.3\textheight]{deepspace1}
- 
         \item Offers much higher specific impulse than chemical engines 
         \item Requires much longer operating periods for maneuvers 
         \item Small satellites with electric propulsion allows for new mission types
@@ -132,12 +124,18 @@
             \end{itemize}
     \end{itemize}
 \end{itemize}
+
+\begin{center}
+    \includegraphics[height=0.3\textheight]{patriot_plume}
+    \hfill
+    \includegraphics[height=0.3\textheight]{deepspace1}
+\end{center}
 \end{frame}   %-----------------------------%
 
-\section*{}
-\subsection*{Previous Work}
+\section*{Previous Work}
+\subsection*{Past Challenges}
 
-\begin{frame}{Asteroid Missions} %-----------------------------%
+\begin{frame}{Gravitational Modeling} %-----------------------------%
 Use a spherical harmonic model to represent gravity field
 
 Much analysis into the structure of dynamics
@@ -145,19 +143,50 @@ Much analysis into the structure of dynamics
 Hovering type control
 \end{frame}   %-----------------------------%
 
-\section*{}
+\begin{frame}{Optimal Transfers}
+Typically use direct methods
+
+Result in suboptimal solutions
+
+Very difficult to choose correct initial conditions that will achieve convergence
+\end{frame}
+
+\section*{Research Approach}
 \subsection*{System Model}
 
-\begin{frame}{Asteroid Gravitational Model}
+\begin{frame}{Polyhedron Gravitation Model}
 
+\begin{itemize}
+    \item Globally valid at all points outside of asteroid
+    \item Closed-form expression of potential based on asteroid shape 
+    \item Exact potential consistent with the resolution of the shape discretization
+\end{itemize}
+{\small
+\begin{align*}\label{eq:potential}
+    U(\vecbf{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vecbf{r}_e \cdot \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vecbf{r}_f \cdot \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f \in \R^1,
+\end{align*}
+}
+Shape based model (show animation of Castalia rotating)
 \end{frame}
 
 \begin{frame}{Equations of Motion}
+Two body equations of motion
 
+Similarity to the three body problem
 \end{frame}
 
-\section*{}
+
 \subsection*{Proposed Approach}
+
+\begin{frame}{Reachability}
+Derivable from Optimal control
+
+Developed for safety constraints
+
+Air traffic control example
+
+Recently extended to spacecraft
+\end{frame}
 
 \begin{frame}{Reachability Set} % -----------------------------------%
 
@@ -170,10 +199,34 @@ Generate reachability set on \Poincare section
 Use low thrust to enlarge reachability set
 \end{frame} %--------------------------------------%
 
-\section*{}
+\begin{frame}{\Poincare section}
+What is the \Poincare section
+
+Used for determining periodic orbits
+
+Show some plots of periodic orbits
+\end{frame}
+
+\begin{frame}{Optimal Control Problem}
+Show equations for problem
+
+show constraints
+
+Acceleration limited
+\end{frame}
+
+\begin{frame}{Terminal Constraints}
+Constraint for section
+
+Constraints for direction
+
+Constraint for control
+\end{frame}
+
+\section*{Transfer Example}
 \subsection*{Numerical Simulation}
 
-\begin{frame}{Numerical Simulation} %-----------------------------%
+\begin{frame}{Simulation} %-----------------------------%
 
 Describe transfer example
 
@@ -209,6 +262,7 @@ Show reachability set
 	
 	\url{https://fdcl.seas.gwu.edu}
 \end{frame}
+
 
 \end{document}
 
