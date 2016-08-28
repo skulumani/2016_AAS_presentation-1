@@ -63,15 +63,17 @@
   \titlepage
 \end{frame}   %-----------------------------%
 
-\section*{Introduction}
-\subsection*{Motivation}  
+\section*{}
+\subsection*{Introduction}  
 
 \begin{frame}{Asteroid Missions}
 \begin{itemize}
     \item Science - insight into the early formation of the solar system
     \item Mining - vast quantities of useful materials
-    \item Impact - huge threat to humanity from impact
+    \item Impact - high risk from hazardous near-Earth asteroids
 \end{itemize}    
+
+\pause
 
 \begin{center}
     \includegraphics[height=0.35\textheight]{figures/near_mos_20001203_full.jpg}
@@ -88,6 +90,8 @@
       \end{itemize}
       \item Commercialization of near-Earth asteroids is feasible~\footfullcite{ross2001}
     \end{itemize}
+
+\pause
 
 \begin{center}
 \small
@@ -112,9 +116,9 @@
 \begin{frame} %-----------------------------%
 \frametitle{Low-thrust vehicles} % electric propulsion
 \begin{itemize}
-    \item Low-thrust orbital transfers
+    \item Low-thrust orbital transfers offer increased mission oportunities
     \begin{itemize}
-        \item Electric propulsion has increased in popularity
+        \item Electric propulsion is increasing in capability
         \item Offers much higher specific impulse than chemical engines 
         \item Requires much longer operating periods for maneuvers 
         \item Enables long duration missions with frequent thrusting
@@ -123,18 +127,19 @@
 
 \begin{center}
     \includegraphics[height=0.3\textheight]{patriot_plume}
-    \hfill
+    ~
     \includegraphics[height=0.3\textheight]{deepspace1}
 \end{center}
 \end{frame}   %-----------------------------%
 
-\section*{Previous Work}
+\section*{}
 \subsection*{Past Challenges}
 
 \begin{frame}{Gravitational Modeling} %-----------------------------%
 
 \begin{itemize}
-  \item Asteroids are extended bodies not point masses
+  \item Asteroids are extended bodies not point masses - requires an accurate model
+  \pause
   \item Spherical Harmonic - popular, but only valid outside of circumscribing sphere
     {
     \small
@@ -142,6 +147,7 @@
       U(\vecbf{r} ) = \frac{\mu}{r} \sum_{n=0}^\infty \sum_{m=0}^\infty \parenth{\frac{R}{r}}^nP_{n,m}(\sin \phi) \braces{ C_{nm} \cos(m \lambda) + S_{nm} \sin(m \lambda)} 
     \end{align*}
     }
+    \pause
   \item Infinite series is always an approximation and adds complexity
     \begin{itemize}
         \item Model switching at circumscribing sphere
@@ -177,7 +183,7 @@
 \end{itemize}
 \end{frame}   %-----------------------------%
 
-\section*{Research Approach}
+\section*{}
 \subsection*{System Model}
 
 \begin{frame}{Polyhedron Gravitation Model}
@@ -205,38 +211,39 @@
 
 \begin{itemize}
     \item Many similarities to the three-body problem
-    \item As in three-body problem, we express EOMs in body-fixed frame
+    \item Equations defined in body fixed frame
 \end{itemize}
 
-\begin{align} \label{eq:eoms}
-    \begin{split}
-        \ddot{x} - 2 \omega \dot{y} - \omega^2 y &= U_x , \\
-        \ddot{y} + 2 \omega \dot{x} - \omega^2 x &= U_y , \\
-        \ddot{z} &= U_z .
-    \end{split}
-\end{align}
+\[
+    \begin{bmatrix} \dot{\vecbf{r}} \\ \dot{\vecbf{v}} \end{bmatrix} =
+    \begin{bmatrix}\vecbf{v} \\ \vecbf{g} \parenth{\vecbf{r}} + \vecbf{h}\parenth{\vecbf{v}} + \vecbf{u} \end{bmatrix} ,
+\]
 \pause
 \begin{itemize}
     \item Dynamics allow for a single integral of motion 
     \item Critical to determine periodic solutions via differential corrections
 \end{itemize}
 
-\begin{align}\label{eq:jacobi}
+\[
     J \parenth{\vecbf{r}, \vecbf{v}} = \frac{1}{2} \omega^2 \parenth{x^2 + y^2} + U(\vecbf{r}) - \frac{1}{2} \parenth{\dot{x}^2 + \dot{y}^2 + \dot{z}^2} .
-\end{align}
-
+\]
 \end{frame}
 
-
+\section*{}
 \subsection*{Proposed Approach}
 
 \begin{frame}{Proposed Approach} % -----------------------------------%
   \begin{itemize}
-      \item We generate the \Emph{reachability set} to determine trajectories which approach the target orbit
+      \item We use the \Emph{reachability set} to design transfers
       \item Multiple iterations of the reachable set are used to achieve large/complex transfers
-      \item We compute the set on a lower dimensional \Poincare section 
+      \item Design transfers using a lower dimensional \Poincare section 
       \item \Emph{Reachability set} on Poincar\'e section allows for systematic transfer design
   \end{itemize}
+
+  \note[itemize]{
+    \item Reachability set avoids the need to pick initial conditions
+    \item We compute on a lower dimensional surface
+  }
 \end{frame} %--------------------------------------%
 
 \begin{frame}{\Poincare map}
@@ -358,7 +365,7 @@
 
 \end{frame}
 
-\section*{Transfer Example}
+\section*{}
 \subsection*{Numerical Simulation}
 
 \begin{frame}{Transfer Objective} %-----------------------------%
@@ -426,6 +433,7 @@
 \end{center}
 
 \end{frame}
+
 \section*{}
 \subsection*{}
 
