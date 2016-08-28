@@ -205,7 +205,7 @@
 
 \begin{itemize}
     \item Many similarities to the three-body problem
-    \item Much of the same theory is also applicable
+    \item As in three-body problem, we express EOMs in body-fixed frame
 \end{itemize}
 
 \begin{align} \label{eq:eoms}
@@ -217,7 +217,8 @@
 \end{align}
 \pause
 \begin{itemize}
-    \item Dynamics allow for a single integral of motion
+    \item Dynamics allow for a single integral of motion 
+    \item Critical to determine periodic solutions via differential corrections
 \end{itemize}
 
 \begin{align}\label{eq:jacobi}
@@ -231,10 +232,10 @@
 
 \begin{frame}{Proposed Approach} % -----------------------------------%
   \begin{itemize}
-      \item Extend invariant manifold concept with low-thrust control  
-      \item Variational integrator allows for accurate and stable computation
-      \item \emph{Computational geometric optimal control} used to generate reachable set
-      \item \emph{Reachability set} on Poincar\'e section allows for systematic transfer design
+      \item We generate the \Emph{reachability set} to determine trajectories which approach the target orbit
+      \item Multiple iterations of the reachable set are used to achieve large/complex transfers
+      \item We compute the set on a lower dimensional \Poincare section 
+      \item \Emph{Reachability set} on Poincar\'e section allows for systematic transfer design
   \end{itemize}
 \end{frame} %--------------------------------------%
 
@@ -315,12 +316,15 @@
 \begin{frame}{Optimal Control Problem}
 \begin{itemize}
     \item Reachability defined as distance between controlled and uncontrolled states
-    \begin{align}\label{eq:cost}
-        J = -\frac{1}{2} \left( \vecbf{x}(t_f) - \vecbf{x}_{n}(t_f)\right)^T 
-        Q
-        \left( \vecbf{x}(t_f) - \vecbf{x}_{n}(t_f)\right) ,
-    \end{align}
+    {\small
+        \begin{align}\label{eq:cost}
+            J = -\frac{1}{2} \left( \vecbf{x}(t_f) - \vecbf{x}_{n}(t_f)\right)^T 
+            Q
+            \left( \vecbf{x}(t_f) - \vecbf{x}_{n}(t_f)\right) ,
+        \end{align}
+    }
     \item Terminal constraints used to ensure correct section and specific direction on \( \R^4 \)
+    {\small
         \begin{align}\label{eq:terminal_constraints}
             \begin{split}
                 m_1 &= y = 0 , \\
@@ -329,45 +333,108 @@
                 m_4 &= \parenth{\sin \phi_{3_{d}}} \parenth{ 2 x_3^2 + 2 x_3 \sqrt{x_4^2 + 2 x_4^2}} - x_3 - \sqrt{x_4^2 + x_3^2} = 0 ,
             \end{split}
         \end{align}
-    \item Maximum acceleration bound to emulate realistic system
+    }
+    \item Control constraint used to emulate realistic system
+        {\small
         \begin{align}\label{eq:control_constraint}
             c(\vecbf{u}) = \vecbf{u}^T \vecbf{u} - u_m^2 \leq 0 ,
         \end{align}
+        }
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Terminal Constraints}
-Constraint for section
+\begin{frame}{Two Point Boundary Value Problem}
+\begin{itemize}
+    \item Solve the necessary conditions for optimality using a multiple shooting method
+    \item Reachable set is approximated by varying the angles \( \phi_1, \phi_2, \phi_3 \) 
+    \item From the reachable set we chose the state which minimizes \( d \) to the target
+    \item This state is used to intialize the next reachable set computation
+\end{itemize}
 
-Constraints for direction
+\begin{align}\label{eq:reach_dist}
+    d = \sqrt{k_x \parenth{x_f - x_t }^2 + k_z \parenth{z_f - z_t }^2 + k_{\dot{x}}\parenth{\dot{x}_f - \dot{x}_t }^2 + k_{\dot{z}}\parenth{\dot{z}_f - \dot{z}_t }^2} ,
+\end{align}
 
-Constraint for control
 \end{frame}
 
 \section*{Transfer Example}
 \subsection*{Numerical Simulation}
 
-\begin{frame}{Simulation} %-----------------------------%
+\begin{frame}{Transfer Objective} %-----------------------------%
 
-Describe transfer example
+\begin{itemize}
+    \item Goal is to transfer between two equatorial periodic orbits
+    \item Typical scenario during study of an asteroid
+\end{itemize}
 
-Show animation in both body and inertial frame
-
-Show reachability set
-
-% \animategraphics[autoplay,loop,width=0.5\textwidth]{8}{./animation/single_noavoid/single_noavoid-}{0}{99}~
-% \animategraphics[autoplay,loop,width=0.5\textwidth]{8}{./animation/single_avoid/single_avoid-}{0}{99}
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{figures/initial_transfer.pdf}
+    \hfill
+    \includegraphics[width=0.5\textwidth]{figures/initial_transfer_3d.pdf}
+\end{center}
 
 \end{frame}%-----------------------------%
 
+\begin{frame}{Simulation}
+\begin{itemize}
+    \item<1> Generate the reachability set through discretization of \( \phi_i \)
+    \item<1> Visualize \( \Sigma \in \R^4 \) through the use of two 2-D sections
+    \item<2> The reachability sets iteratively approach the target orbit
+\end{itemize}
+\only<1>{
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{figures/poincare_xvsxdot.pdf}
+    \hfill
+    \includegraphics[width=0.5\textwidth]{figures/poincare_zvszdot.pdf}
+\end{center}
+}
 
+\only<2>{
+    \begin{center}
+        \includegraphics[width=0.3\textwidth]{figures/phi1.pdf}~
+        \includegraphics[width=0.3\textwidth]{figures/phi2.pdf}~
+        \includegraphics[width=0.3\textwidth]{figures/phi3.pdf}
+    \end{center}
+}
+% \animategraphics[autoplay,loop,width=0.5\textwidth]{8}{./animation/single_noavoid/single_noavoid-}{0}{99}~
+% \animategraphics[autoplay,loop,width=0.5\textwidth]{8}{./animation/single_avoid/single_avoid-}{0}{99}
+\end{frame}
+
+\begin{frame}{Simulation}
+    \begin{itemize}
+        \item After four computations of the reachable state the spacecraft can achieve both \( x\) and \( z\) component
+        \item Final transfer is computed with a fixed terminal state constraint to meet the target orbit
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{figures/trajectory.pdf}
+        \hfill
+        \includegraphics[width=0.5\textwidth]{figures/trajectory_3d.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Complete transfer}
+\begin{itemize}
+    \item We can visualize the complete trajectory in both the body and inertial frames
+\end{itemize}
+
+\begin{center}
+  \animategraphics[autoplay,loop,width=0.5\textwidth]{30}{./animation/body/body-}{1}{1500}~\hfill
+  \animategraphics[autoplay,loop,width=0.5\textwidth]{30}{./animation/inertial/inertial-}{1}{1500}
+\end{center}
+
+\end{frame}
 \section*{}
 \subsection*{}
 
 \begin{frame}{Conclusions} %-----------------------------%
-
-  
+\begin{itemize}
+    \item Challenging transfer utilizing multiple iterations of the reachability set
+    \item Alleviates the need for selecting accurate initial guesses for convergence
+    \item Gives insight into the possible motion of the spacecraft
+\end{itemize}
 
 \end{frame}   %-----------------------------%
 
