@@ -189,7 +189,7 @@
 \begin{frame}{Polyhedron Gravitation Model}
 
 \begin{itemize}
-    \item Compute potential assuming faceted shape model of asteroid
+    \item Potential is a function of only the shape model
     \item Globally valid, closed-form expression of potential
     \item Exact potential assumes a constant density and an accurate shape model
 \end{itemize}
@@ -211,7 +211,7 @@
 
 \begin{itemize}
     \item Many similarities to the three-body problem
-    \item Equations defined in body fixed frame
+    \item Equations are also defined in body fixed frame
 \end{itemize}
 
 \[
@@ -221,7 +221,7 @@
 \pause
 \begin{itemize}
     \item Dynamics allow for a single integral of motion 
-    \item Critical to determine periodic solutions via differential corrections
+    \item Critical to defining periodic solutions via differential corrections
 \end{itemize}
 
 \[
@@ -248,8 +248,14 @@
 
 \begin{frame}{\Poincare map}
 \begin{itemize}
-    \item Intersection of a periodic orbit with a lower dimensional subspace, \Poincare section
+    \item Intersection of a periodic orbit with a lower dimensional subspace, called the \Poincare section
+    \pause
+        \begin{itemize}
+            \item Can be considered a discrete map between intersections of the section
+        \end{itemize}
+        \pause
     \item Useful for investigating the stability and structure of dynamical systems
+    \pause
     \item We define a section \( \Sigma \) to determine initial and target periodic orbits for our transfer
 \end{itemize}
 
@@ -266,8 +272,10 @@
     \[
     R( \vecbf{x}_0, \mathcal{U} , t_f) = \braces{ \vecbf{x}_f \subseteq \mathcal{X} | \exists \vecbf{u} \in \mathcal{U}, \vecbf{x}(t_f) = \vecbf{x}_f }
     \]
+    \pause
     \item Directly derivable from optimal control
     \item Frequently used for safety planning, e.g. air traffic collision avoidance
+    \pause
     \item We extend its use to the design of spacecraft transfers
 \end{itemize}
 
@@ -324,28 +332,30 @@
 \begin{itemize}
     \item Reachability defined as distance between controlled and uncontrolled states
     {\small
-        \begin{align}\label{eq:cost}
+        \[
             J = -\frac{1}{2} \left( \vecbf{x}(t_f) - \vecbf{x}_{n}(t_f)\right)^T 
             Q
             \left( \vecbf{x}(t_f) - \vecbf{x}_{n}(t_f)\right) ,
-        \end{align}
+        \]
     }
-    \item Terminal constraints used to ensure correct section and specific direction on \( \R^4 \)
+    \pause
+    \item Terminal constraints used to ensure correct section and specific direction on \( \Sigma \in \R^4 \)
     {\small
-        \begin{align}\label{eq:terminal_constraints}
+        \begin{align*}\label{eq:terminal_constraints}
             \begin{split}
                 m_1 &= y = 0 , \\
                 m_2 &= \parenth{\sin \phi_{1_{d}}} \parenth{ x_1^2 + x_2^2 + x_3^2 + x_4^2} - x_1^2 = 0, \\
                 m_3 &= \parenth{\sin \phi_{2_{d}}} \parenth{ x_2^2 + x_3^2 + x_4^2} - x_2^2 = 0, \\
                 m_4 &= \parenth{\sin \phi_{3_{d}}} \parenth{ 2 x_3^2 + 2 x_3 \sqrt{x_4^2 + 2 x_4^2}} - x_3 - \sqrt{x_4^2 + x_3^2} = 0 ,
             \end{split}
-        \end{align}
+        \end{align*}
     }
+    \pause
     \item Control constraint used to emulate realistic system
         {\small
-        \begin{align}\label{eq:control_constraint}
+        \[
             c(\vecbf{u}) = \vecbf{u}^T \vecbf{u} - u_m^2 \leq 0 ,
-        \end{align}
+        \]
         }
 \end{itemize}
 
@@ -353,10 +363,12 @@
 
 \begin{frame}{Two Point Boundary Value Problem}
 \begin{itemize}
-    \item Solve the necessary conditions for optimality using a multiple shooting method
-    \item Reachable set is approximated by varying the angles \( \phi_1, \phi_2, \phi_3 \) 
+    \item Multiple shooting used to solve necessary conditions
+    \pause
+    \item Approximate the reachable set via \( \phi_1, \phi_2, \phi_3 \) 
+    \pause
     \item From the reachable set we chose the state which minimizes \( d \) to the target
-    \item This state is used to intialize the next reachable set computation
+    \item Compute another reachable set if target is outside of set
 \end{itemize}
 
 \begin{align}\label{eq:reach_dist}
@@ -384,34 +396,27 @@
 \end{frame}%-----------------------------%
 
 \begin{frame}{Simulation}
+
+
 \begin{itemize}
-    \item<1> Generate the reachability set through discretization of \( \phi_i \)
-    \item<1> Visualize \( \Sigma \in \R^4 \) through the use of two 2-D sections
-    \item<2> The reachability sets iteratively approach the target orbit
+    \item Generate the reachability set through discretization of \( \phi_i \)
+    \item Visualize \( \Sigma \in \R^4 \) through the use of two 2-D sections
+    \pause
+    \item Control input allows for large deviation in velocity components
 \end{itemize}
-\only<1>{
+
 \begin{center}
     \includegraphics[width=0.5\textwidth]{figures/poincare_xvsxdot.pdf}
     \hfill
     \includegraphics[width=0.5\textwidth]{figures/poincare_zvszdot.pdf}
 \end{center}
-}
 
-\only<2>{
-    \begin{center}
-        \includegraphics[width=0.3\textwidth]{figures/phi1.pdf}~
-        \includegraphics[width=0.3\textwidth]{figures/phi2.pdf}~
-        \includegraphics[width=0.3\textwidth]{figures/phi3.pdf}
-    \end{center}
-}
-% \animategraphics[autoplay,loop,width=0.5\textwidth]{8}{./animation/single_noavoid/single_noavoid-}{0}{99}~
-% \animategraphics[autoplay,loop,width=0.5\textwidth]{8}{./animation/single_avoid/single_avoid-}{0}{99}
 \end{frame}
 
 \begin{frame}{Simulation}
     \begin{itemize}
-        \item After four computations of the reachable state the spacecraft can achieve both \( x\) and \( z\) component
-        \item Final transfer is computed with a fixed terminal state constraint to meet the target orbit
+        \item Four iterations of the reachable state to meet the target set
+        \item Final transfer is computed with a fixed terminal state constraint
     \end{itemize}
 
     \begin{center}
@@ -442,6 +447,7 @@
     \item Challenging transfer utilizing multiple iterations of the reachability set
     \item Alleviates the need for selecting accurate initial guesses for convergence
     \item Gives insight into the possible motion of the spacecraft
+    \item Extension of previous work in the planar three-body problem
 \end{itemize}
 
 \end{frame}   %-----------------------------%
