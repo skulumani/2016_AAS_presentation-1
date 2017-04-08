@@ -1,6 +1,6 @@
 %\documentclass[11pt,professionalfonts,hyperref={pdftex,pdfpagemode=none,pdfstartview=FitH}]{beamer}
 %\usepackage{times}
-\documentclass[11pt,professionalfonts]{beamer}
+\documentclass[draft,11pt,professionalfonts]{beamer}
 \usefonttheme{serif}
 
 \usepackage{aas_presentation_packages}
@@ -49,7 +49,7 @@
    
 \institute{
   \footnotesize
-  {\normalsize\bf{Shankar Kulumani and Taeyoung Lee}}\\
+  {\normalsize\bf{Shankar Kulumani}}\\
   \vspace*{0.2cm}
     \textbf{Flight Dynamics \& Control Lab}\\ \vspace*{0.5cm}
   \begin{figure} %figure%
@@ -116,54 +116,6 @@
 
 \section*{}
 \subsection*{Past Challenges}
-
-\begin{frame} %-----------------------------%
-\frametitle{Low-thrust vehicles} % electric propulsion
-\begin{itemize}
-    \item Low-thrust orbital transfers offer increased mission oportunities
-    \begin{itemize}
-        \item Electric propulsion is increasing in capability
-        \item Offers much higher specific impulse than chemical engines 
-        \item Requires much longer operating periods for maneuvers 
-        \item Enables long duration missions with frequent thrusting
-    \end{itemize}
-\end{itemize}
-
-\begin{center}
-    \includegraphics[height=0.3\textheight]{patriot_plume}
-    ~
-    \includegraphics[height=0.3\textheight]{deepspace1}
-\end{center}
-\end{frame}   %-----------------------------%
-
-
-\begin{frame}{Challenges for Optimal Transfer Design} %-----------------------------%
-
-\begin{itemize}
-    \item Optimal Trajectory Design
-        \begin{itemize}
-            \item Orbital dynamics are nonlinear and chaotic
-            \item Very sensitive to initial conditions
-            \item Intuition required by designer to enable convergence
-        \end{itemize}
-    \pause
-    \item Transfers using low-thrust propulsion
-        \begin{itemize}
-            \item Requires long periods of thrusting/coasting
-            \item Small perturbations require accurate numerical integration
-            \item Difficult to capture the long-term effects accurately
-        \end{itemize}
-    \pause
-    \item Direct Optimal Control
-        \begin{itemize}
-            \item Reformulate problem as parameter optimization
-            \item Allows for use of nonlinear programming methods
-            \item High dimensional problem and computationally intensive
-            \item Results in suboptimal solutions due to discretization
-        \end{itemize}
-\end{itemize}
-\end{frame}   %-----------------------------%
-
 \begin{frame}{Gravitational Modeling} %-----------------------------%
 
 \begin{itemize}
@@ -221,7 +173,7 @@
 
 \begin{itemize}
     \item Many similarities to the three-body problem
-    \item Equations are also defined in body fixed frame
+    \item Equations are also defined in rotating frame
 \end{itemize}
 
 \[
