@@ -1,6 +1,4 @@
-%\documentclass[11pt,professionalfonts,hyperref={pdftex,pdfpagemode=none,pdfstartview=FitH}]{beamer}
-%\usepackage{times}
-\documentclass[draft,11pt,professionalfonts]{beamer}
+\documentclass[11pt,professionalfonts]{beamer}
 \usefonttheme{serif}
 
 \usepackage{aas_presentation_packages}
@@ -115,39 +113,9 @@
 
 
 \section*{}
-\subsection*{Past Challenges}
-\begin{frame}{Gravitational Modeling} %-----------------------------%
-
-\begin{itemize}
-  \item Asteroids are extended bodies not point masses
-  \pause
-  \item Spherical Harmonic - only valid outside of circumscribing sphere
-    {
-    \small
-    \begin{align*}
-      U(\vecbf{r} ) = \frac{\mu}{r} \sum_{n=0}^\infty \sum_{m=0}^\infty \parenth{\frac{R}{r}}^nP_{n,m}(\sin \phi) \braces{ C_{nm} \cos(m \lambda) + S_{nm} \sin(m \lambda)} 
-    \end{align*}
-    }
-    \pause
-  \item Infinite series is an approximation and adds complexity
-    \begin{itemize}
-        \item Model switching at circumscribing sphere
-        \item Coefficient matching used to ensure continuity 
-    \end{itemize}
-\end{itemize}
-
-\note[itemize]{
-  \item Models require detailed data from orbit about asteroid (OD process determines gravity field)
-  \item Simplified models (triaxial ellipsoid allows analytical insight)
-  \item Previous work fails to consider coupled dyanmics
-  }
-
-\end{frame}   %-----------------------------%
-
-\section*{}
 \subsection*{System Model}
 
-\begin{frame}{Polyhedron Gravitation Model}
+\begin{frame}{Gravitational Modeling} %-----------------------------%
 
 \begin{itemize}
     \item Potential is a function of only the shape model
@@ -192,7 +160,7 @@
 \end{frame}
 
 \section*{}
-\subsection*{Proposed Approach}
+\subsection*{Technical Approach}
 
 \begin{frame}{Proposed Approach} % -----------------------------------%
   \begin{itemize}
@@ -212,41 +180,31 @@
   }
 \end{frame} %--------------------------------------%
 
-\begin{frame}{\Poincare map}
+\begin{frame}{Reachability Sets and the \Poincare map}
 \begin{itemize}
-    \item Intersection of a periodic orbit with a lower dimensional subspace, called the \Poincare section
-    \pause
+    \item Intersections of trajectories with a lower dimensional surface
+        \pause
         \begin{itemize}
-            \item Can be considered a discrete map 
+            \item The \Poincare section, \( \Sigma \), reduces the computational complexity 
+            \item Useful for investigating the stability and structure of the system
+        \begin{align*}
+            \Sigma = \braces{\parenth{x, \dot{x}, z, \dot{z}} | y(t_f) = 0 }
+        \end{align*}
         \end{itemize}
         \pause
-    \item Useful for investigating the stability and structure 
     \pause
-    \item Define a \Poincare section \( \Sigma \) 
-        \begin{itemize}
-            \item Used for initial and target periodic orbits
-            \item Subspace for the \Emph{reachability set}
-        \end{itemize}
-\end{itemize}
-
-\begin{align*}
-    \Sigma = \braces{\parenth{x, \dot{x}, z, \dot{z}} | y(t_f) = 0 }
-\end{align*}
-
-\end{frame}
-
-\begin{frame}{Reachability Set}
-
-\begin{itemize}
-    \item Set of states achievable from a given initial condition over fixed \( t_f \) s.t. maximum control constraint
-    \begin{align*}
-        R( \vecbf{x}_0, \mathcal{U} , t_f) = \braces{ \vecbf{x}_f \subseteq \mathcal{X} | \exists \vecbf{u} \in \mathcal{U}, \vecbf{x}(t_f) = \vecbf{x}_f }
-    \end{align*}
-    \pause
-    \item Directly derivable from optimal control
-    \item Frequently used for safety planning, e.g. air traffic collision avoidance
-    \pause
-    \item We extend its use to the design of spacecraft transfers
+    \item \Poincare section serves as subspace for the reachability set
+    \begin{itemize}
+        \item Set of states achievable from a given initial condition over fixed \( t_f \) s.t. maximum control constraint
+        \begin{align*}
+            R( \vecbf{x}_0, \mathcal{U} , t_f) = \braces{ \vecbf{x}_f \subseteq \mathcal{X} | \exists \vecbf{u} \in \mathcal{U}, \vecbf{x}(t_f) = \vecbf{x}_f }
+        \end{align*}
+        \pause
+        \item Directly derivable from optimal control
+        \item Frequently used for safety planning, e.g. air traffic collision avoidance
+        \pause
+        \item We extend its use to the design of spacecraft transfers
+    \end{itemize}
 \end{itemize}
 
 \end{frame}
@@ -343,22 +301,6 @@
         \]
         }
 \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Two Point Boundary Value Problem}
-\begin{itemize}
-    \item Multiple shooting used to solve necessary conditions
-    \pause
-    \item Approximate the reachable set via \( \phi_1, \phi_2, \phi_3 \) 
-    \pause
-    \item From the reachable set we chose the state which minimizes \( d \) 
-    \item Compute another reachable set if target is not feasible
-\end{itemize}
-
-\begin{align*}
-    d = \sqrt{k_x \parenth{x_f - x_t }^2 + k_z \parenth{z_f - z_t }^2 + k_{\dot{x}}\parenth{\dot{x}_f - \dot{x}_t }^2 + k_{\dot{z}}\parenth{\dot{z}_f - \dot{z}_t }^2} 
-\end{align*}
 
 \end{frame}
 
